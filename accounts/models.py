@@ -9,6 +9,10 @@ class CustomUser(AbstractUser):
         default=False,
         verbose_name='Registration accepted'
     )
+    is_moderator = models.BooleanField(
+        default=False,
+        verbose_name='Is moderator'
+    )
 
     def __str__(self):
         """

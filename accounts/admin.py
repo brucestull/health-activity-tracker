@@ -14,4 +14,5 @@ class CustomUserAdmin(UserAdmin):
         'username',
         'email',
         'registration_accepted',
+        'is_moderator',
     )
