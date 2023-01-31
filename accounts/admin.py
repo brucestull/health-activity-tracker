@@ -12,5 +12,6 @@ class CustomUserAdmin(UserAdmin):
     model = CustomUser
     list_display = (
         'username',
-        'email'
+        'email',
+        'registration_accepted',
     )
