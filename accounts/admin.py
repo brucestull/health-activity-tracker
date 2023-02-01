@@ -19,45 +19,18 @@ class CustomUserAdmin(UserAdmin):
 
     def get_fieldsets(self, request, obj=None):
         """
-        Override get_fieldsets() to add registration_accepted and is_moderator to fieldsets.
+        Override `get_fieldsets()` to add `registration_accepted` and
+        `is_moderator` to a `Moderator Permissions` section `CustomUser`
+        change view.
         """
-        print('')
-        print(self.fieldsets)
-        print('')
-        print(self.fieldsets[2])
-        print('')
-        print('type(self.fieldsets): ', type(self.fieldsets))
-
+        # Get the default `fieldsets` from the superclass `UserAdmin`:
         fieldsets = super().get_fieldsets(request, obj)
-        # Try to convert fieldsets to list:
-        print('')
-        print('type(fieldsets) - tuple: ', type(fieldsets))
-        fieldsets = list(fieldsets)
-        print('type(fieldsets) - list: ', type(fieldsets))
-        print('')
-        print(fieldsets)
 
-        # Get the permissions fieldset:
-        permissions_fieldset = fieldsets[2]
-        print('')
-        print('permissions_fieldset: ', permissions_fieldset)
-        # Convert permissions_fieldset to list:
-        permissions_list = list(permissions_fieldset)
-        print('')
-        print('permissions_list - list: ', permissions_list)
+        # Convert fieldsets to list:
+        fieldsets_as_list = list(fieldsets)
 
-        # Add `registration_accepted` and `is_moderator` to `permissions_list`:
-        permissions_list[1]['fields'] = (
-            'is_active',
-            'is_staff',
-            'is_superuser',
-            'registration_accepted',
-            'is_moderator',
-            'groups',
-            'user_permissions',
-        )
-
-        # Replace `permissions_fieldset` with updated `permissions_list`:
-        fieldsets[2] = tuple(permissions_list)
+        # Create list of single tuple for `registration_accepted` and `is_moderator`:
+        moderator_permissions_as_list = [('Moderator Permissions', {'fields': ('registration_accepted', 'is_moderator')})]
         
-        return fieldsets
+        # Combine the two lists and return the result:
+        return moderator_permissions_as_list + fieldsets_as_list

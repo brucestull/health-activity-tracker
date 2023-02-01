@@ -18,13 +18,16 @@
 
 ## Additional Features (required or otherwise)
 
-### Moderator View
+### View (Role) to Set `is_moderator` `True` or `False`
 
-* View for `user`s where `user.is_moderator` is `True`:
-  * Moderator Dashboard.
-  * Moderator can administrate users.
-  * Moderator can delete any user.
-  * Moderator can set `user.registration_accepted` for any user.
+* Sets Moderator Role (or, maybe, group?)
+
+### View (Role) to Set `registration_accepted` `True` or `False`
+
+* Performs Moderator Role
+* This role has `CustomUser` attributes `is_moderator` set to `True`.
+* This can be called Moderator Role (or, maybe, group?)
+* Dashboard
 
 ## Interesting and/or New Concepts and Commands
 
