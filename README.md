@@ -12,6 +12,7 @@
   * Daily Diary Card
 * Goals and Values Tracker
   * Goals (e.g. obtain teaching position, create non-profit to help disadvantaged, etc.)
+    * `SMART` Goals
   * Values (e.g. care for others, teach others, etc.)
 * Activity Tracker
   * Activity (e.g. apply for position, have fun, play, pet the cat, exercise, sleep, meditation, etc.)
