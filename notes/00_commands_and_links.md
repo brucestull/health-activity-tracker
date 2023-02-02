@@ -73,6 +73,8 @@
 
 ## Development server web links
 
+* RO-DBT:
+  * [`index`](http://localhost:8000/rodbt/)
 * Create user:
   * <http://localhost:8000/accounts/signup/>
 * Server Root:
