@@ -15,8 +15,17 @@ class Journal(models.Model):
         null=True,
     )
     body = models.TextField()
-    date = models.DateTimeField(auto_now_add=True)
-    edited_date = models.DateTimeField(auto_now=True)
+    date = models.DateTimeField(
+        'Created Date',
+        auto_now_add=True,
+    )
+    edited_date = models.DateTimeField(
+        'Edited Date',
+        auto_now=True,
+    )
+
+    def __str__(self):
+        return self.title[:30]
 
 
 class Question(models.Model):
@@ -25,11 +34,23 @@ class Question(models.Model):
         on_delete=models.CASCADE,
         related_name='questions',
     )
-    body = models.CharField(max_length=200)
-    date = models.DateTimeField(auto_now_add=True)
-    edited_date = models.DateTimeField(auto_now=True)
-    journal = models.ForeignKey(
-        Journal,
-        on_delete=models.CASCADE,
-        related_name='questions',
+    body = models.CharField(
+        max_length=200
     )
+    date = models.DateTimeField(
+        'Created Date',
+        auto_now_add=True,
+    )
+    edited_date = models.DateTimeField(
+        'Edited Date',
+        auto_now=True,
+    )
+    journal = models.ManyToManyField(
+        Journal,
+        symmetrical=False,
+        related_name='questions',
+        blank=True,
+    )
+
+    def __str__(self):
+        return self.body[:40]

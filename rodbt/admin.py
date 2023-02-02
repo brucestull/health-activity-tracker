@@ -3,26 +3,38 @@ from django.contrib import admin
 from rodbt.models import Journal, Question
 
 
-class QuestionInline(admin.TabularInline):
-    """
-    Defines format of `Question` inline insertion.
-    """
-    model = Question
-
 @admin.register(Journal)
 class JournalAdmin(admin.ModelAdmin):
-    list_display = (
+    list_display = [
         'author',
-        'title',
+        '__str__',  # title
+        # 'title',
         'date',
-    )
+    ]
     fields = [
         'author',
         'title',
         'body',
     ]
-    inlines = [
-        QuestionInline,
+    list_filter = [
+        'date',
+        'edited_date',
     ]
 
-admin.site.register(Question)
+@admin.register(Question)
+class QuestionAdmin(admin.ModelAdmin):
+    list_display = [
+        'author',
+        '__str__',  # body
+        'date',
+    ]
+    fields = [
+        'author',
+        'body',
+        'journal',
+    ]
+    list_filter = [
+        'date',
+        'edited_date',
+    ]
+

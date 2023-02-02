@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
 
-    'rodbt.apps.RodbtConfig',
+    'rodbt.apps.RODBTConfig',
 ]
 
 MIDDLEWARE = [
