@@ -96,3 +96,6 @@
   * [`rodbt/templates/rodbt/journal_list.html`](./rodbt/templates/rodbt/journal_list.html):
     * `{{ journal.title | truncatewords:5 }}`
   * Django Admin Documentation:
+
+    ![truncatewords](https://user-images.githubusercontent.com/47562501/216563307-7d7e38da-da5e-4363-95d0-2360874f04f5.png)
+
