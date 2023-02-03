@@ -76,6 +76,7 @@
 * RO-DBT:
   * [`index`](http://localhost:8000/rodbt/)
   * [`journals`](http://localhost:8000/rodbt/journals/)
+  * [`journals/create/`](http://localhost:8000/rodbt/journals/create/)
   * [`questions`](http://localhost:8000/rodbt/questions/)
 * Create user:
   * <http://localhost:8000/accounts/signup/>

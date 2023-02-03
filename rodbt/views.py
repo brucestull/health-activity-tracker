@@ -1,6 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.views.generic import ListView
+from django.views.generic.edit import CreateView
+from django.views.generic.detail import DetailView
 
 from rodbt.models import Journal
 from rodbt.models import Question
@@ -14,6 +16,25 @@ PAGE_TITLE_QUESTION_LIST = 'My Questions'
 
 def index(request):
     return HttpResponse("Hello, world. You're at the RO-DBT index!")
+
+
+class JournalCreateView(LoginRequiredMixin, CreateView):
+    """
+    `CreateView` for a user to create a new `Journal`.
+    """
+    model = Journal
+    fields = [
+        'title',
+        'body',
+        'author',
+    ]
+
+
+class JournalDetailView(LoginRequiredMixin, DetailView):
+    """
+    `DetailView` for a user to view a `Journal`.
+    """
+    model = Journal
 
 
 class JournalListView(LoginRequiredMixin, ListView):

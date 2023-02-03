@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ the_site_name }}
+    -
+    {{ page_title }}
+{% endblock title %}
+
+{% block content %}
+    <hr>
+    {{ journal.title }}
+    <br>
+    {{ journal.body | linebreaks }}
+    <hr>
+{% endblock content %}

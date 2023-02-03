@@ -14,7 +14,9 @@
 
     <hr>
     {% for journal in journal_list %}
-        {{ journal.title }}
+        <a href={% url 'rodbt:journal-detail' journal.id %}>
+            {{ journal.title | truncatewords:5 }}
+        </a>
         <br>
         <br>
         {{ journal.body | linebreaks }}

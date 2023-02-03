@@ -91,4 +91,3 @@
   * Django Admin Documentation:
 
     ![linebreaks](https://user-images.githubusercontent.com/47562501/216554120-956f3226-10d5-4c42-b79c-260f089dce98.png)
-

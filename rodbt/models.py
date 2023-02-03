@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 from config.settings.common import AUTH_USER_MODEL
 
@@ -26,6 +27,10 @@ class Journal(models.Model):
 
     def __str__(self):
         return self.title[:30]
+
+    def get_absolute_url(self):
+        return reverse('rodbt:journal-detail', args=[str(self.id)])
+
 
 
 class Question(models.Model):
