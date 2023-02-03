@@ -88,3 +88,7 @@
   * <https://docs.djangoproject.com/en/4.1/ref/templates/builtins/#linebreaks>
   * [`rodbt/templates/rodbt/journal_list.html`](./rodbt/templates/rodbt/journal_list.html):
     * `{{ journal.body | linebreaks }}`
+  * Django Admin Documentation:
+
+    ![linebreaks](https://user-images.githubusercontent.com/47562501/216554120-956f3226-10d5-4c42-b79c-260f089dce98.png)
+
