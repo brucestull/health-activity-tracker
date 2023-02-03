@@ -83,3 +83,8 @@
 
 * Create database from command line:
   * `heroku addons:create heroku-postgresql:mini`
+
+* `linebreaks` filter:
+  * <https://docs.djangoproject.com/en/4.1/ref/templates/builtins/#linebreaks>
+  * [`rodbt/templates/rodbt/journal_list.html`](./rodbt/templates/rodbt/journal_list.html):
+    * `{{ journal.body | linebreaks }}`
