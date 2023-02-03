@@ -75,6 +75,8 @@
 
 * RO-DBT:
   * [`index`](http://localhost:8000/rodbt/)
+  * [`journals`](http://localhost:8000/rodbt/journals/)
+  * [`questions`](http://localhost:8000/rodbt/questions/)
 * Create user:
   * <http://localhost:8000/accounts/signup/>
 * Server Root:

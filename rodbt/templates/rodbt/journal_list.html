@@ -10,5 +10,15 @@
 
     <h1>Journal List</h1>
     <a href={% url 'home' %}>Home</a>
+    <br>
+
+    <hr>
+    {% for journal in journal_list %}
+        {{ journal.title }}
+        <br>
+        <br>
+        {{ journal.body }}
+        <hr>
+    {% endfor %}
     
 {% endblock content %}

@@ -13,18 +13,18 @@
       * Possible Models and Fields:
         * `Journal`:
           * `author` - ForeignKey to `CustomUser`
+          * `tags` - ManyToManyField to `Tag`
           * `title`
           * `body`
           * `date`
-          * `tags` - ManyToManyField to `Tag`
           * `edited_date`
         * `Question`:
           * `author` - ForeignKey to `CustomUser`
+          * `tags` - ManyToManyField to `Tag`
+          * `journal` - ManyToManyField to `Journal`
           * `body`
           * `date`
-          * `tags` - ManyToManyField to `Tag`
           * `edited_date`
-          * `journal` - ForeignKey to `Journal`
     * Daily Diary Card:
       * Possible Model and Fields:
         * ???
@@ -36,11 +36,13 @@
         * `Goal`:
           * `name`
           * `description`
-          * `start_date`
-          * `target_date`
+          * `units`
+          * `frequency`
           * `tags` - ManyToManyField to `Tag`
           * `user` - ForeignKey to `CustomUser`
           * `activities` - ManyToManyField to `Activity`
+          * `start_date`
+          * `target_date`
     * Values
       * e.g. care for others, teach others, care for self, enrich my life, enrich others' lives, etc.
       * Possible Model and Fields:

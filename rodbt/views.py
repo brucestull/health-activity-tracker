@@ -19,14 +19,29 @@ def index(request):
 class JournalListView(LoginRequiredMixin, ListView):
     """
     List view for a user to view their own journals.
+
+    Default context object names are `journal_list` and `object_list`.
+
+    Default template name is `rodbt/journal_list.html`.
     """
     model = Journal
-    context_object_name = 'journal_list'
-    login_url = 'login'
+
+    # login_url = 'login'
+
+    # template_name = 'rodbt/journal_list.html'
+    # TODO Remove this method: Use it temporarily to view the template
+    # names in debug mode and `"justMyCode": true`.
+    def get_template_names(self):
+        template_names = super().get_template_names()
+        return template_names
 
     def get_queryset(self):
+        """
+        Get the list of `Journal`s for the current user.
+        """
         return Journal.objects.filter(author=self.request.user)
 
+    # context_object_name = 'journal_list'
     # Add extra context:
     def get_context_data(self, **kwargs):
         """
@@ -41,14 +56,29 @@ class JournalListView(LoginRequiredMixin, ListView):
 class QuestionListView(LoginRequiredMixin, ListView):
     """
     List view for a user to view their own questions.
+
+    Default context object names are `question_list` and `object_list`.
+
+    Default template name is `rodbt/question_list.html`.
     """
     model = Question
-    context_object_name = 'question_list'
-    login_url = 'login'
+
+    # login_url = 'login'
+
+    # template_name = 'rodbt/question_list.html'
+    # TODO Remove this method: Use it temporarily to view the template
+    # names in debug mode and `"justMyCode": true`.
+    def get_template_names(self):
+        template_names = super().get_template_names()
+        return template_names
 
     def get_queryset(self):
+        """
+        Get the list of `Question`s for the current user.
+        """
         return Question.objects.filter(author=self.request.user)
 
+    # context_object_name = 'question_list'
     # Add extra context:
     def get_context_data(self, **kwargs):
         """
