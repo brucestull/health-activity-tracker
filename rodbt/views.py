@@ -57,7 +57,7 @@ class JournalDetailView(LoginRequiredMixin, DetailView):
     # Add extra context:
     def get_context_data(self, **kwargs):
         """
-        Add extra contexts `the_site_name` and `page_title` to the view.
+        Add extra context `page_title` to the view.
         """
         context = super().get_context_data(**kwargs)
         context['page_title'] = PAGE_TITLE_JOURNAL_DETAIL
