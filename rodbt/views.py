@@ -17,10 +17,10 @@ PAGE_TITLE_JOURNAL_CREATE = 'New Journal Entry'
 
 PAGE_TITLE_QUESTION_LIST = 'My Questions'
 PAGE_TITLE_QUESTION_DETAIL = 'Question Detail'
+PAGE_TITLE_QUESTION_CREATE = 'New Question'
 
 def index(request):
     return HttpResponse("Hello, world. You're at the RO-DBT index!")
-
 
 class JournalCreateView(LoginRequiredMixin, CreateView):
     """
@@ -30,7 +30,7 @@ class JournalCreateView(LoginRequiredMixin, CreateView):
     fields = [
         'title',
         'body',
-        # 'author',
+        # 'author', # `author` is set in `form_valid()
     ]
 
     def form_valid(self, form):
@@ -101,6 +101,33 @@ class JournalListView(LoginRequiredMixin, ListView):
         context['page_title'] = PAGE_TITLE_JOURNAL_LIST
         return context
 
+class QuestionCreateView(LoginRequiredMixin, CreateView):
+    """
+    `CreateView` for a user to create a new `Question`.
+    """
+    model = Question
+    fields = [
+        'body',
+        'journal',
+        # 'author', # `author` is set in `form_valid()
+    ]
+
+    def form_valid(self, form):
+        """
+        Set the `author` field to the current user.
+        """
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    # Add extra context:
+    def get_context_data(self, **kwargs):
+        """
+        Add extra contexts `the_site_name` and `page_title` to the view.
+        """
+        context = super().get_context_data(**kwargs)
+        context['the_site_name'] = THE_SITE_NAME
+        context['page_title'] = PAGE_TITLE_QUESTION_CREATE
+        return context
 
 class QuestionListView(LoginRequiredMixin, ListView):
     """
