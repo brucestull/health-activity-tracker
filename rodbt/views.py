@@ -26,8 +26,15 @@ class JournalCreateView(LoginRequiredMixin, CreateView):
     fields = [
         'title',
         'body',
-        'author',
+        # 'author',
     ]
+
+    def form_valid(self, form):
+        """
+        Set the `author` field to the current user.
+        """
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
 class JournalDetailView(LoginRequiredMixin, DetailView):
@@ -60,7 +67,7 @@ class JournalListView(LoginRequiredMixin, ListView):
         """
         Get the list of `Journal`s for the current user.
         """
-        return Journal.objects.filter(author=self.request.user)
+        return Journal.objects.filter(author=self.request.user).order_by('-date')
 
     # context_object_name = 'journal_list'
     # Add extra context:
