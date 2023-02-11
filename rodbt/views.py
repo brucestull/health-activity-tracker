@@ -12,6 +12,7 @@ from config.settings.common import THE_SITE_NAME
 
 # Add extra context values for the page titles:
 PAGE_TITLE_JOURNAL_LIST = 'My Journals'
+PAGE_TITLE_JOURNAL_CREATE = 'New Journal Entry'
 PAGE_TITLE_QUESTION_LIST = 'My Questions'
 
 def index(request):
@@ -36,6 +37,15 @@ class JournalCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+    # Add extra context:
+    def get_context_data(self, **kwargs):
+        """
+        Add extra contexts `the_site_name` and `page_title` to the view.
+        """
+        context = super().get_context_data(**kwargs)
+        context['the_site_name'] = THE_SITE_NAME
+        context['page_title'] = PAGE_TITLE_JOURNAL_CREATE
+        return context
 
 class JournalDetailView(LoginRequiredMixin, DetailView):
     """
