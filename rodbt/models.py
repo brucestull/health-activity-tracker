@@ -43,7 +43,8 @@ class Question(models.Model):
         related_name='questions',
     )
     body = models.CharField(
-        max_length=200
+        verbose_name='Question Body Text',
+        max_length=200,
     )
     date = models.DateTimeField(
         'Created Date',
@@ -58,7 +59,11 @@ class Question(models.Model):
         symmetrical=False,
         related_name='questions',
         blank=True,
+        # null=True, # Has no effect on ManyToManyField. So not needed.
     )
 
     def __str__(self):
         return self.body[:40]
+
+    def get_absolute_url(self):
+        return reverse('rodbt:question-detail', args=[str(self.id)])

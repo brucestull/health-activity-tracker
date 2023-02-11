@@ -23,7 +23,6 @@ class JournalModelTest(TestCase):
         author = CustomUser.objects.create(
             username=A_TEST_USERNAME,
         )
-        
         Journal.objects.create(
             author=author,
             title=THIRTY_PLUS_ONE_CHARACTERS,
