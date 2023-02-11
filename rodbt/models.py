@@ -11,11 +11,14 @@ class Journal(models.Model):
         related_name='journals',
     )
     title = models.CharField(
+        verbose_name='Title',
         max_length=200,
         blank=True,
         null=True,
     )
-    body = models.TextField()
+    body = models.TextField(
+        verbose_name='Journal Body Text',
+    )
     date = models.DateTimeField(
         'Created Date',
         auto_now_add=True,
