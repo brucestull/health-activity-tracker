@@ -33,6 +33,12 @@
                 Questions
             </a>
             <br>
+            <a
+                href={% url 'rodbt:question-create' %}
+                >
+                Create New Question
+            </a>
+            <br>
             {% if user.is_staff %}
                 {% include 'staff.html' %}
             {% endif %}
