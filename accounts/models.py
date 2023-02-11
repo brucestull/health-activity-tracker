@@ -3,15 +3,17 @@ from django.db import models
 
 class CustomUser(AbstractUser):
     """
-    A CustomUser class is added so we can add functionality later. It's more convenient then not to add CustomUser at beginning of project before database migrations are started.
+    A CustomUser class is added so we can add functionality later. It's
+    more convenient then not to add CustomUser at beginning of project
+    before database migrations are started.
     """
     registration_accepted = models.BooleanField(
+        verbose_name='Registration Accepted',
         default=False,
-        verbose_name='Registration accepted'
     )
     is_moderator = models.BooleanField(
+        verbose_name='Is Moderator',
         default=False,
-        verbose_name='Is moderator'
     )
 
     def __str__(self):
