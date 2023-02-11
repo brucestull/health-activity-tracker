@@ -10,5 +10,15 @@
 
     <h1>Question List</h1>
     <a href={% url 'home' %}>Home</a>
+    <br>
+
+    <hr>
+    {% for question in question_list %}
+        <a href={% url 'rodbt:question-detail' question.id %}>
+            {{ question.body }}
+        </a>
+        <br>
+
+    {% endfor %}
     
 {% endblock content %}

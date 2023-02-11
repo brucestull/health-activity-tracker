@@ -14,7 +14,9 @@ from config.settings.common import THE_SITE_NAME
 PAGE_TITLE_JOURNAL_LIST = 'My Journals'
 PAGE_TITLE_JOURNAL_DETAIL = 'Journal Detail'
 PAGE_TITLE_JOURNAL_CREATE = 'New Journal Entry'
+
 PAGE_TITLE_QUESTION_LIST = 'My Questions'
+PAGE_TITLE_QUESTION_DETAIL = 'Question Detail'
 
 def index(request):
     return HttpResponse("Hello, world. You're at the RO-DBT index!")
@@ -134,4 +136,19 @@ class QuestionListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['the_site_name'] = THE_SITE_NAME
         context['page_title'] = PAGE_TITLE_QUESTION_LIST
+        return context
+
+class QuestionDetailView(LoginRequiredMixin, DetailView):
+    """
+    `DetailView` for a user to view a `Question`.
+    """
+    model = Question
+
+    # Add extra context:
+    def get_context_data(self, **kwargs):
+        """
+        Add extra context `page_title` to the view.
+        """
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = PAGE_TITLE_QUESTION_DETAIL
         return context
