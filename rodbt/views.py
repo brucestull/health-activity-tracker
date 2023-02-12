@@ -7,6 +7,8 @@ from django.views.generic.detail import DetailView
 from rodbt.models import Journal
 from rodbt.models import Question
 
+from rodbt.forms import QuestionForm
+
 # Import extra context value for the site name:
 from config.settings.common import THE_SITE_NAME
 
@@ -105,16 +107,27 @@ class QuestionCreateView(LoginRequiredMixin, CreateView):
     """
     `CreateView` for a user to create a new `Question`.
     """
-    model = Question
-    fields = [
-        'body',
-        'journal',
-        # 'author', # `author` is set in `form_valid()
-    ]
+    # model = Question
+    form_class = QuestionForm
+    template_name = 'rodbt/question_form.html'
+    # fields = [
+    #     'body',
+    #     'journal',
+    #     # 'author', # `author` is set in `form_valid()
+    # ]
+
+    def get_form_kwargs(self):
+        """
+        Pass the `user`, via kwarg `user`, to `QuestionForm`.
+        """
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
     def form_valid(self, form):
         """
-        Set the `author` field to the current user.
+        Set the `author` field to the current user and then, if the form
+        is valid, save the associated model.
         """
         form.instance.author = self.request.user
         return super().form_valid(form)

@@ -18,8 +18,12 @@
             {{ journal.title | truncatewords:5 }}
         </a>
         <br>
-        <br>
         {{ journal.body | linebreaks }}
+        {% comment %} TEMPORARY {% endcomment %}
+        {{ journal.author}}
+        |
+        {{ journal.questions.all }}
+        {% comment %} TEMPORARY {% endcomment %}
         <hr>
     {% endfor %}
     
