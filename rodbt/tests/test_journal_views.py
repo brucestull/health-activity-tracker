@@ -180,6 +180,7 @@ class JournalCreateViewTest(TestCase):
             'Journal Body Text'
         )
 
+
 class JournalDetailViewTest(TestCase):
     """
     Test the `JournalDetailView`.
@@ -307,7 +308,7 @@ class JournalDetailViewTest(TestCase):
         self.assertEqual(response.context['journal'].title, A_TEST_JOURNAL_TITLE)
         self.assertEqual(response.context['journal'].body, A_TEST_JOURNAL_BODY)
 
-    def test_view_returns_queryset_with_one_item(self):
+    def test_view_returns_a_journal(self):
         """
         HTTP request to `/rodbt/journals/1/` should return a `Journal`.
 
@@ -321,11 +322,6 @@ class JournalDetailViewTest(TestCase):
         # response_journal = response.context['journal'] # Journal
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response.context['journal'], Journal)
-
-
-
-
-
 
 
 class JournalListViewTest(TestCase):
