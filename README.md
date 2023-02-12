@@ -98,3 +98,16 @@
   * Django Admin Documentation:
 
     ![truncatewords](https://user-images.githubusercontent.com/47562501/216563307-7d7e38da-da5e-4363-95d0-2360874f04f5.png)
+
+* `Client()`:
+  * [The test client - docs.djangoproject.com](https://docs.djangoproject.com/en/4.1/topics/testing/tools/#the-test-client)
+  * [`django.test.Client` - docs.djangoproject.com](https://docs.djangoproject.com/en/4.1/topics/testing/tools/#django.test.Client)
+
+  ```python
+          c = Client()
+          logged_in = c.login(
+              username=A_TEST_USERNAME,
+              password=A_TEST_PASSWORD,
+          )
+          print('logged_in: ', logged_in)
+  ```
