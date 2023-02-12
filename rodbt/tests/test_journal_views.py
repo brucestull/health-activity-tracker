@@ -318,40 +318,10 @@ class JournalDetailViewTest(TestCase):
             password=A_TEST_PASSWORD,
         )
         response = self.client.get(JOURNAL_DETAIL_URL) # TemplateResponse
-        response_journal = response.context['journal'] # Journal
+        # response_journal = response.context['journal'] # Journal
         self.assertEqual(response.status_code, 200)
-        # self.assertEqual(response.context['journal'].count(), 1) # Doesn't work as desired.
-        # self.assertEqual(type(response.context['journal']), type(Journal)) # Doesn't work as desired.
         self.assertIsInstance(response.context['journal'], Journal)
 
-    # def test_view_returns_one_journal(self):
-    #     """
-    #     HTTP request to `/rodbt/journals/1/` should return one `Journal`.
-
-    #     Test that the view returns one `Journal`.
-    #     """
-    #     login = self.client.login(
-    #         username=A_TEST_USERNAME,
-    #         password=A_TEST_PASSWORD,
-    #     )
-    #     response = self.client.get(JOURNAL_DETAIL_URL)
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertEqual(len(response.context['journal']), 1)
-
-    # def test_view_returns_queryset_of_length_one(self):
-    #     """
-    #     HTTP request to `/rodbt/journals/1/` should return a queryset of
-    #     length one.
-
-    #     Test that the view returns a queryset of length one.
-    #     """
-    #     login = self.client.login(
-    #         username=A_TEST_USERNAME,
-    #         password=A_TEST_PASSWORD,
-    #     )
-    #     response = self.client.get(JOURNAL_DETAIL_URL)
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertEqual(len(response.context['journal']), 1)
 
 
 
