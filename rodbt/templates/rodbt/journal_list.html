@@ -14,14 +14,16 @@
 
     <hr>
     {% for journal in journal_list %}
+        {% comment %} TEMPORARY {% endcomment %}
+        {{ journal.author}}
+        |
+        {% comment %} TEMPORARY {% endcomment %}
         <a href={% url 'rodbt:journal-detail' journal.id %}>
             {{ journal.title | truncatewords:5 }}
         </a>
         <br>
         {{ journal.body | linebreaks }}
         {% comment %} TEMPORARY {% endcomment %}
-        {{ journal.author}}
-        |
         {{ journal.questions.all }}
         {% comment %} TEMPORARY {% endcomment %}
         <hr>

@@ -14,13 +14,15 @@
 
     <hr>
     {% for question in question_list %}
+        {% comment %} TEMPORARY {% endcomment %}
+        {{ question.author }}
+        |
+        {% comment %} TEMPORARY {% endcomment %}
         <a href={% url 'rodbt:question-detail' question.id %}>
             {{ question.body }}
         </a>
         {% comment %} TEMPORARY {% endcomment %}
         {{ question.journal.all }}
-        |
-        {{ question.author }}
         {% comment %} TEMPORARY {% endcomment %}
         <br>
 
