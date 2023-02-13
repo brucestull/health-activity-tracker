@@ -111,3 +111,14 @@
           )
           print('logged_in: ', logged_in)
   ```
+
+* Adding `UserDashboardView` view:
+  * Error:
+
+    ```text
+    django.template.exceptions.TemplateDoesNotExist: registration/dashboard.html, accounts/customuser_list.html
+    ```
+
+  * Expected templates:
+    * `accounts/customuser_list.html` # Probably from view model `model = CustomUser`.
+    * `registration/dashboard.html` # Probably from view `template_name = 'registration/dashboard.html'`.

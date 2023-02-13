@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ page_title }}
+    -
+    {{ user.username }}
+    -
+    {{ the_site_name }}
+{% endblock title %}
+
+{% block content %}
+    <h1>{{ user.username }} - Dashboard</h1>
+
+    {{ object }}
+    <br>
+    <h2>Journals</h2>
+    {{ object.journals.all }}
+    <br>
+    <h2>Questions</h2>
+    {{ object.questions.all }}
+    
+{% endblock content %}

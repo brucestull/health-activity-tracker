@@ -1,15 +1,20 @@
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic import ListView
+from django.views.generic.detail import DetailView
 from django.contrib.auth.views import LoginView
 
 from accounts.forms import CustomUserCreationForm, CustomUserChangeForm
 from accounts.models import CustomUser
 from config.settings.common import THE_SITE_NAME
 
+DASHBOARD_PAGE_TITLE = 'Dashboard'
+
 
 class CustomLoginView(LoginView):
     """
-    Override the default login view. This will allow us to add the site name to the context and then display it on the page.
+    Override the default login view. This will allow us to add the site
+    name to the context and then display it on the page.
     """
 
     def get_context_data(self, **kwargs):
@@ -53,4 +58,27 @@ class UserUpdateView(UpdateView):
         """
         context = super().get_context_data(**kwargs)
         context['the_site_name'] = THE_SITE_NAME
+        return context
+
+
+class UserDashboardView(DetailView):
+    """
+    View for user to see their `Journal`s and `Question`s.
+    """
+    # model = CustomUser
+    template_name = 'accounts/dashboard.html'
+
+    def get_object(self):
+        """
+        Get the user object.
+        """
+        return self.request.user
+
+    def get_context_data(self, **kwargs):
+        """
+        Add the site name to the context.
+        """
+        context = super().get_context_data(**kwargs)
+        context['the_site_name'] = THE_SITE_NAME
+        context['page_title'] = DASHBOARD_PAGE_TITLE
         return context
