@@ -65,20 +65,24 @@ class UserDashboardView(DetailView):
     """
     View for user to see their `Journal`s and `Question`s.
     """
-    # model = CustomUser
+    # No need to specify a `model` because we are overriding `get_object()`
     template_name = 'accounts/dashboard.html'
 
     def get_object(self):
         """
-        Get the user object.
+        Get the current user's `CustomUser` object.
         """
         return self.request.user
 
     def get_context_data(self, **kwargs):
         """
-        Add the site name to the context.
+        Add `the_site_name` and `page_title` to the context.
         """
         context = super().get_context_data(**kwargs)
+        # Default context objects:
+        #   `object`: the `CustomUser` object
+        #   `customuser`: the `CustomUser` object
+        #   `view`: the `UserDashboardView` object
         context['the_site_name'] = THE_SITE_NAME
         context['page_title'] = DASHBOARD_PAGE_TITLE
         return context
