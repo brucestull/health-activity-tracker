@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponse
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView
@@ -24,7 +24,7 @@ PAGE_TITLE_QUESTION_CREATE = 'New Question'
 def index(request):
     return HttpResponse("Hello, world. You're at the RO-DBT index!")
 
-class JournalCreateView(LoginRequiredMixin, CreateView):
+class JournalCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     """
     `CreateView` for a user to create a new `Journal`.
     """
@@ -34,6 +34,12 @@ class JournalCreateView(LoginRequiredMixin, CreateView):
         'body',
         # 'author', # `author` is set in `form_valid()
     ]
+
+    def test_func(self):
+        """
+        Test if user has `registration_accepted=True`.
+        """
+        return self.request.user.registration_accepted
 
     def form_valid(self, form):
         """
@@ -52,11 +58,17 @@ class JournalCreateView(LoginRequiredMixin, CreateView):
         context['page_title'] = PAGE_TITLE_JOURNAL_CREATE
         return context
 
-class JournalDetailView(LoginRequiredMixin, DetailView):
+class JournalDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     """
     `DetailView` for a user to view a `Journal`.
     """
     model = Journal
+
+    def test_func(self):
+        """
+        Test if user has `registration_accepted=True`.
+        """
+        return self.request.user.registration_accepted
 
     # Add extra context:
     def get_context_data(self, **kwargs):
@@ -67,7 +79,7 @@ class JournalDetailView(LoginRequiredMixin, DetailView):
         context['page_title'] = PAGE_TITLE_JOURNAL_DETAIL
         return context
 
-class JournalListView(LoginRequiredMixin, ListView):
+class JournalListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """
     List view for a user to view their own journals.
 
@@ -86,6 +98,12 @@ class JournalListView(LoginRequiredMixin, ListView):
         template_names = super().get_template_names()
         return template_names
 
+    def test_func(self):
+        """
+        Test if user has `registration_accepted=True`.
+        """
+        return self.request.user.registration_accepted
+
     def get_queryset(self):
         """
         Get the list of `Journal`s for the current user.
@@ -103,7 +121,7 @@ class JournalListView(LoginRequiredMixin, ListView):
         context['page_title'] = PAGE_TITLE_JOURNAL_LIST
         return context
 
-class QuestionCreateView(LoginRequiredMixin, CreateView):
+class QuestionCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     """
     `CreateView` for a user to create a new `Question`.
     """
@@ -115,6 +133,12 @@ class QuestionCreateView(LoginRequiredMixin, CreateView):
     #     'journal',
     #     # 'author', # `author` is set in `form_valid()
     # ]
+
+    def test_func(self):
+        """
+        Test if user has `registration_accepted=True`.
+        """
+        return self.request.user.registration_accepted
 
     def get_form_kwargs(self):
         """
@@ -142,7 +166,7 @@ class QuestionCreateView(LoginRequiredMixin, CreateView):
         context['page_title'] = PAGE_TITLE_QUESTION_CREATE
         return context
 
-class QuestionListView(LoginRequiredMixin, ListView):
+class QuestionListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """
     List view for a user to view their own questions.
 
@@ -161,6 +185,12 @@ class QuestionListView(LoginRequiredMixin, ListView):
         template_names = super().get_template_names()
         return template_names
 
+    def test_func(self):
+        """
+        Test if user has `registration_accepted=True`.
+        """
+        return self.request.user.registration_accepted
+
     def get_queryset(self):
         """
         Get the list of `Question`s for the current user.
@@ -178,11 +208,23 @@ class QuestionListView(LoginRequiredMixin, ListView):
         context['page_title'] = PAGE_TITLE_QUESTION_LIST
         return context
 
-class QuestionDetailView(LoginRequiredMixin, DetailView):
+class QuestionDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     """
     `DetailView` for a user to view a `Question`.
     """
     model = Question
+
+    def test_func(self):
+        """
+        Test if user has `registration_accepted=True`.
+
+        Purpose:
+        * Ensure that the user is not able to view `Question`s for other users.
+        * Ensure that the user is registered.
+        """
+        user_owns_question = self.request.user == self.get_object().author
+        user_registration_accepted = self.request.user.registration_accepted
+        return user_owns_question and user_registration_accepted
 
     # Add extra context:
     def get_context_data(self, **kwargs):
