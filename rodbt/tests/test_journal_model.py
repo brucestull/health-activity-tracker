@@ -8,7 +8,9 @@ THIRTY_PLUS_ONE_CHARACTERS = '1234567890123456789012345678901'
 A_TEST_USERNAME = 'ACustomUser'
 A_TEST_JOURNAL_BODY = (
 """
-This is a Journal Body, here. It's a long string of text, and it might not be tested for length, but it's here since we have to provide a 'body' when creating a `Journal`.
+This is a Journal Body, here. It's a long string of text, and it might
+not be tested for length, but it's here since we have to provide a 'body'
+when creating a `Journal`.
 """
 )
 
@@ -111,7 +113,8 @@ class JournalModelTest(TestCase):
 
     def test_dunder_str(self):
         """
-        `__str__` method should return `title` field value, truncated to 30 characters.
+        `__str__` method should return `title` field value, truncated to
+        30 characters.
         """
         journal = Journal.objects.get(id=1)
         expected_dunder_string = journal.title[:30]

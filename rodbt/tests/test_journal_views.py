@@ -58,7 +58,10 @@ class JournalCreateViewTest(TestCase):
         logged in.
         """
         response = self.client.get('/rodbt/journals/create/')
-        self.assertRedirects(response, '/accounts/login/?next=/rodbt/journals/create/')
+        self.assertRedirects(
+            response,
+            '/accounts/login/?next=/rodbt/journals/create/'
+        )
 
     def test_view_url_for_logged_in_user(self):
         """
@@ -214,7 +217,10 @@ class JournalDetailViewTest(TestCase):
         logged in.
         """
         response = self.client.get(JOURNAL_DETAIL_URL)
-        self.assertRedirects(response, '/accounts/login/?next=/rodbt/journals/1/')
+        self.assertRedirects(
+            response,
+            '/accounts/login/?next=/rodbt/journals/1/'
+        )
 
     def test_view_url_for_logged_in_user(self):
         """
@@ -359,7 +365,10 @@ class JournalListViewTest(TestCase):
         logged in.
         """
         response = self.client.get(JOURNALS_URL)
-        self.assertRedirects(response, '/accounts/login/?next=/rodbt/journals/')
+        self.assertRedirects(
+            response,
+            '/accounts/login/?next=/rodbt/journals/'
+        )
 
     def test_view_url_for_logged_in_user(self):
         """
@@ -452,7 +461,10 @@ class JournalListViewTest(TestCase):
         )
         response = self.client.get(JOURNALS_URL)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.context['journal_list']), NUMBER_OF_JOURNALS)
+        self.assertEqual(
+            len(response.context['journal_list']),
+            NUMBER_OF_JOURNALS
+        )
 
 
 

@@ -112,7 +112,8 @@ class QuestionModelTest(TestCase):
 
     def test_dunder_str(self):
         """
-        `__str__` should return the question `body` field, truncated to 40 characters.
+        `__str__` should return the question `body` field, truncated to
+        40 characters.
         """
         question = Question.objects.get(id=1)
         expected_dunder_string = question.body[:40]
