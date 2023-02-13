@@ -11,7 +11,9 @@
 {% block content %}
     <h1>{{ user.username }} - Dashboard</h1>
 
-    {{ object }}
+    {% comment %} `object` is a `CustomUser` {% endcomment %}
+    {% comment %} Can add `object.values` and `object.goals` later. {% endcomment %}
+    {{ object.username }}
     <br>
     <h2>Journals</h2>
     {{ object.journals.all }}
