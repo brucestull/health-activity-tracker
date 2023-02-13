@@ -1,8 +1,8 @@
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView
-from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.views import LoginView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from accounts.forms import CustomUserCreationForm, CustomUserChangeForm
 from accounts.models import CustomUser
@@ -43,7 +43,7 @@ class SignUpView(CreateView):
         return context
 
 
-class UserUpdateView(UpdateView):
+class UserUpdateView(LoginRequiredMixin, UpdateView):
     """
     View for user to update an existing account.
     """
@@ -61,12 +61,19 @@ class UserUpdateView(UpdateView):
         return context
 
 
-class UserDashboardView(DetailView):
+class UserDashboardView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     """
-    View for user to see their `Journal`s and `Question`s.
+    View for user to see their `Journal`s and `Question`s and other
+    related models.
     """
     # No need to specify a `model` because we are overriding `get_object()`
     template_name = 'accounts/dashboard.html'
+
+    def test_func(self):
+        """
+        Test if user has `registration_accepted=True`.
+        """
+        return self.request.user.registration_accepted
 
     def get_object(self):
         """
