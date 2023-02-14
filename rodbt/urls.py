@@ -29,7 +29,7 @@ urlpatterns = [
         name='questions'
     ),
     path(
-        'questions/create/',
+        'question/create/',
         views.QuestionCreateView.as_view(),
         name='question-create'
     ),
