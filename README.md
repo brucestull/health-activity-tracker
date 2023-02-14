@@ -81,6 +81,29 @@
 
 ## Interesting and/or New Concepts and Commands
 
+* Testing:
+  * Check each feature, attribute, and method.
+  * It's reasonable to go through out code line-by-line and check each feature, attribute, and method.
+  * Examples:
+    * We create a `path()` in `urls.py` and then we check that the `path()` is working correctly:
+      * Does the `path()` return the correct `view`?
+        * Does the route return the correct `view`?
+        * Does the view name return the correct `view`?
+    * We create a `view` in `views.py` and then we check that the `view` is working correctly:
+      * Does the `view` return the correct `template`?
+      * Does the `view` return the correct `context`?
+      * Does the `view` return the correct `status_code`?
+        * This is dependent on attributes and methods:
+          * Possible `status_code`:
+            * `200` - OK
+            * `302` - Found
+            * `400` - Bad Request
+            * `403` - Forbidden
+            * `404` - Not Found
+            * `405` - Method Not Allowed
+            * `500` - Internal Server Error
+          * We want to check that the appropriate `status_code` is returned for each scenario we want to control.
+
 * Create database from command line:
   * `heroku addons:create heroku-postgresql:mini`
 
