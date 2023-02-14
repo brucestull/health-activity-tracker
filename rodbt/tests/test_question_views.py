@@ -123,7 +123,12 @@ class QuestionCreateViewTest(TestCase):
 
     def test_view_form_has_correct_fields(self):
         """
-        Test that the form has the correct fields.
+        HTTP request to the view URL should have a form with the correct
+        fields:
+        - `body`
+        - `journal`
+
+        Test that the form has the correct fields and they are in proper order.
         """
         self.client.login(
             username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
@@ -135,11 +140,31 @@ class QuestionCreateViewTest(TestCase):
         # Are these two tests necessary?
         self.assertTrue('body' in response.context['form'].fields)
         self.assertTrue('journal' in response.context['form'].fields)
-        # This test is checking if the fields are in the correct order.
+        # This test is checking if the fields are in the correct order,
+        # specified in `rodbt/forms.py`.
         self.assertEqual(
             list(response.context['form'].fields),
             [
                 'body',
                 'journal',
             ]
+        )
+
+    def test_view_form_has_correct_labels(self):
+        """
+        Test that the form has the correct labels.
+        """
+        self.client.login(
+            username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
+            password=A_TEST_PASSWORD,
+        )
+        response = self.client.get(QUESTION_CREATE_URL)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.context['form'].fields['body'].label,
+            'Question Body Text',
+        )
+        self.assertEqual(
+            response.context['form'].fields['journal'].label,
+            'Journal',
         )
