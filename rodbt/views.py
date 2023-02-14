@@ -21,6 +21,7 @@ PAGE_TITLE_QUESTION_LIST = 'My Questions'
 PAGE_TITLE_QUESTION_DETAIL = 'Question Detail'
 PAGE_TITLE_QUESTION_CREATE = 'New Question'
 
+
 def index(request):
     return HttpResponse("Hello, world. You're at the RO-DBT index!")
 
@@ -224,7 +225,9 @@ class QuestionDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         """
         user_owns_question = self.request.user == self.get_object().author
         user_registration_accepted = self.request.user.registration_accepted
+
         return user_owns_question and user_registration_accepted
+
 
     # Add extra context:
     def get_context_data(self, **kwargs):

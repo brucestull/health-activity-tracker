@@ -6,7 +6,8 @@ from accounts.models import CustomUser
 from rodbt.models import Journal
 
 
-A_TEST_USERNAME = 'ACustomUser'
+USER_WITH_REGISTRATION_ACCEPTED = 'RegisteredUser'
+USER_WITHOUT_REGISTRATION_ACCEPTED = 'UnregisteredUser'
 A_TEST_PASSWORD = 'a_test_password'
 
 NUMBER_OF_JOURNALS = 11
@@ -43,11 +44,12 @@ class JournalCreateViewTest(TestCase):
         """
 
         # Create a user.
-        the_test_user = CustomUser.objects.create(
-            username=A_TEST_USERNAME,
+        registered_user = CustomUser.objects.create(
+            username=USER_WITH_REGISTRATION_ACCEPTED,
         )
-        the_test_user.set_password(A_TEST_PASSWORD)
-        the_test_user.save()
+        registered_user.set_password(A_TEST_PASSWORD)
+        registered_user.registration_accepted = True
+        registered_user.save()
 
     def test_view_url_redirect_if_not_logged_in(self):
         """
@@ -71,7 +73,7 @@ class JournalCreateViewTest(TestCase):
         Test that the view is accessible if the user is logged in.
         """
         login = self.client.login(
-            username=A_TEST_USERNAME,
+            username=USER_WITH_REGISTRATION_ACCEPTED,
             password=A_TEST_PASSWORD,
         )
         response = self.client.get(JOURNAL_CREATE_URL)
@@ -85,7 +87,7 @@ class JournalCreateViewTest(TestCase):
         Test that the view is accessible by name.
         """
         login = self.client.login(
-            username=A_TEST_USERNAME,
+            username=USER_WITH_REGISTRATION_ACCEPTED,
             password=A_TEST_PASSWORD,
         )
         response = self.client.get(reverse('rodbt:journal-create'))
@@ -99,7 +101,7 @@ class JournalCreateViewTest(TestCase):
         Test that the view uses the correct template.
         """
         login = self.client.login(
-            username=A_TEST_USERNAME,
+            username=USER_WITH_REGISTRATION_ACCEPTED,
             password=A_TEST_PASSWORD,
         )
         response = self.client.get(JOURNAL_CREATE_URL)
@@ -114,7 +116,7 @@ class JournalCreateViewTest(TestCase):
         Test that the view has the correct extra context objects.
         """
         login = self.client.login(
-            username=A_TEST_USERNAME,
+            username=USER_WITH_REGISTRATION_ACCEPTED,
             password=A_TEST_PASSWORD,
         )
         response = self.client.get(JOURNAL_CREATE_URL)
@@ -129,7 +131,7 @@ class JournalCreateViewTest(TestCase):
         Test that the view has a form.
         """
         login = self.client.login(
-            username=A_TEST_USERNAME,
+            username=USER_WITH_REGISTRATION_ACCEPTED,
             password=A_TEST_PASSWORD,
         )
         response = self.client.get(JOURNAL_CREATE_URL)
@@ -146,7 +148,7 @@ class JournalCreateViewTest(TestCase):
         Test that the view has a form with the correct fields.
         """
         login = self.client.login(
-            username=A_TEST_USERNAME,
+            username=USER_WITH_REGISTRATION_ACCEPTED,
             password=A_TEST_PASSWORD,
         )
         response = self.client.get(JOURNAL_CREATE_URL)
@@ -169,7 +171,7 @@ class JournalCreateViewTest(TestCase):
         Test that the view has a form with the correct labels.
         """
         login = self.client.login(
-            username=A_TEST_USERNAME,
+            username=USER_WITH_REGISTRATION_ACCEPTED,
             password=A_TEST_PASSWORD,
         )
         response = self.client.get(JOURNAL_CREATE_URL)
@@ -195,15 +197,16 @@ class JournalDetailViewTest(TestCase):
         """
 
         # Create a user.
-        the_test_user = CustomUser.objects.create(
-            username=A_TEST_USERNAME,
+        registered_user = CustomUser.objects.create(
+            username=USER_WITH_REGISTRATION_ACCEPTED,
         )
-        the_test_user.set_password(A_TEST_PASSWORD)
-        the_test_user.save()
+        registered_user.set_password(A_TEST_PASSWORD)
+        registered_user.registration_accepted = True
+        registered_user.save()
 
-        # Create a `Journal` for `the_test_user`.
+        # Create a `Journal` for `registered_user`.
         Journal.objects.create(
-            author=the_test_user,
+            author=registered_user,
             title=A_TEST_JOURNAL_TITLE,
             body=A_TEST_JOURNAL_BODY,
         )
@@ -230,7 +233,7 @@ class JournalDetailViewTest(TestCase):
         Test that the view is accessible if the user is logged in.
         """
         login = self.client.login(
-            username=A_TEST_USERNAME,
+            username=USER_WITH_REGISTRATION_ACCEPTED,
             password=A_TEST_PASSWORD,
         )
         response = self.client.get(JOURNAL_DETAIL_URL)
@@ -244,7 +247,7 @@ class JournalDetailViewTest(TestCase):
         Test that the view is accessible by name.
         """
         login = self.client.login(
-            username=A_TEST_USERNAME,
+            username=USER_WITH_REGISTRATION_ACCEPTED,
             password=A_TEST_PASSWORD,
         )
         response = self.client.get(reverse('rodbt:journal-detail', args=[1]))
@@ -258,7 +261,7 @@ class JournalDetailViewTest(TestCase):
         Test that the view uses the correct template.
         """
         login = self.client.login(
-            username=A_TEST_USERNAME,
+            username=USER_WITH_REGISTRATION_ACCEPTED,
             password=A_TEST_PASSWORD,
         )
         response = self.client.get(JOURNAL_DETAIL_URL)
@@ -275,7 +278,7 @@ class JournalDetailViewTest(TestCase):
         Test that the view has the correct context.
         """
         login = self.client.login(
-            username=A_TEST_USERNAME,
+            username=USER_WITH_REGISTRATION_ACCEPTED,
             password=A_TEST_PASSWORD,
         )
         response = self.client.get(JOURNAL_DETAIL_URL)
@@ -291,7 +294,7 @@ class JournalDetailViewTest(TestCase):
         Test that the view has the correct page title.
         """
         login = self.client.login(
-            username=A_TEST_USERNAME,
+            username=USER_WITH_REGISTRATION_ACCEPTED,
             password=A_TEST_PASSWORD,
         )
         response = self.client.get(JOURNAL_DETAIL_URL)
@@ -306,7 +309,7 @@ class JournalDetailViewTest(TestCase):
         Test that the view has the correct `Journal`.
         """
         login = self.client.login(
-            username=A_TEST_USERNAME,
+            username=USER_WITH_REGISTRATION_ACCEPTED,
             password=A_TEST_PASSWORD,
         )
         response = self.client.get(JOURNAL_DETAIL_URL)
@@ -321,7 +324,7 @@ class JournalDetailViewTest(TestCase):
         Test that the view returns a `Journal`.
         """
         login = self.client.login(
-            username=A_TEST_USERNAME,
+            username=USER_WITH_REGISTRATION_ACCEPTED,
             password=A_TEST_PASSWORD,
         )
         response = self.client.get(JOURNAL_DETAIL_URL) # TemplateResponse
@@ -341,17 +344,18 @@ class JournalListViewTest(TestCase):
         """
 
         # Create a user.
-        the_test_user = CustomUser.objects.create(
-            username=A_TEST_USERNAME,
+        registered_user = CustomUser.objects.create(
+            username=USER_WITH_REGISTRATION_ACCEPTED,
         )
-        the_test_user.set_password(A_TEST_PASSWORD)
-        the_test_user.save()
+        registered_user.set_password(A_TEST_PASSWORD)
+        registered_user.registration_accepted = True
+        registered_user.save()
 
-        # Create some `Journal`s for `the_test_user`.
+        # Create some `Journal`s for `registered_user`.
         number_of_journals = NUMBER_OF_JOURNALS
         for journal_id in range(number_of_journals):
             Journal.objects.create(
-                author=the_test_user,
+                author=registered_user,
                 title=f'Journal {journal_id} Title',
                 body=f'Journal {journal_id} body text',
             )
@@ -377,7 +381,7 @@ class JournalListViewTest(TestCase):
         Test that the view is accessible if the user is logged in.
         """
         login = self.client.login(
-            username=A_TEST_USERNAME,
+            username=USER_WITH_REGISTRATION_ACCEPTED,
             password=A_TEST_PASSWORD,
         )
         response = self.client.get(JOURNALS_URL)
@@ -391,7 +395,7 @@ class JournalListViewTest(TestCase):
         Test that the view is accessible by name.
         """
         login = self.client.login(
-            username=A_TEST_USERNAME,
+            username=USER_WITH_REGISTRATION_ACCEPTED,
             password=A_TEST_PASSWORD,
         )
         response = self.client.get(reverse('rodbt:journals'))
@@ -404,7 +408,7 @@ class JournalListViewTest(TestCase):
         Test that the view uses the correct template.
         """
         login = self.client.login(
-            username=A_TEST_USERNAME,
+            username=USER_WITH_REGISTRATION_ACCEPTED,
             password=A_TEST_PASSWORD,
         )
         response = self.client.get(JOURNALS_URL)
@@ -422,7 +426,7 @@ class JournalListViewTest(TestCase):
         Test that the view uses the correct context object name.
         """
         login = self.client.login(
-            username=A_TEST_USERNAME,
+            username=USER_WITH_REGISTRATION_ACCEPTED,
             password=A_TEST_PASSWORD,
         )
         response = self.client.get(JOURNALS_URL)
@@ -440,7 +444,7 @@ class JournalListViewTest(TestCase):
         Test that the view has the correct extra context objects.
         """
         login = self.client.login(
-            username=A_TEST_USERNAME,
+            username=USER_WITH_REGISTRATION_ACCEPTED,
             password=A_TEST_PASSWORD,
         )
         response = self.client.get(JOURNALS_URL)
@@ -456,7 +460,7 @@ class JournalListViewTest(TestCase):
         Test that the view returns the correct number of `Journal`s.
         """
         login = self.client.login(
-            username=A_TEST_USERNAME,
+            username=USER_WITH_REGISTRATION_ACCEPTED,
             password=A_TEST_PASSWORD,
         )
         response = self.client.get(JOURNALS_URL)
