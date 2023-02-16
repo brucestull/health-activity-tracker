@@ -42,6 +42,8 @@ class QuestionCreateViewTest(TestCase):
     def setUpTestData(cls):
         """
         Create a `CustomUser` with `registration_accepted=True`.
+
+        This specific function name `setUpTestData` is required by Django.
         """
         registered_user = CustomUser.objects.create(
             username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
