@@ -142,7 +142,7 @@ class QuestionCreateViewTest(TestCase):
         # Are these two tests necessary?
         self.assertTrue('body' in response.context['form'].fields)
         self.assertTrue('journal' in response.context['form'].fields)
-        # This test is checking if the fields are in the correct order,
+        # This test is checking if the fields are present and are in the correct order,
         # specified in `rodbt/forms.py`.
         self.assertEqual(
             list(response.context['form'].fields),
