@@ -40,6 +40,8 @@ class JournalCreateViewTest(TestCase):
     def setUpTestData(cls):
         """
         Create a `CustomUser` with `registration_accepted=True`.
+
+        This specific function name `setUpTestData` is required by Django.
         """
         registered_user = CustomUser.objects.create(
             username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
@@ -191,6 +193,8 @@ class JournalDetailViewTest(TestCase):
     def setUpTestData(cls):
         """
         Create a `CustomUser` and a `Journal` for testing.
+
+        This specific function name `setUpTestData` is required by Django.
         """
 
         # Create a user.
@@ -338,6 +342,8 @@ class JournalListViewTest(TestCase):
     def setUpTestData(cls):
         """
         Create a `CustomUser` and a selection of 11 `Journal`s for testing.
+
+        This specific function name `setUpTestData` is required by Django.
         """
 
         # Create a user.

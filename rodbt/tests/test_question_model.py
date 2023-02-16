@@ -29,6 +29,8 @@ class QuestionModelTest(TestCase):
     def setUpTestData(cls):
         """
         Set up non-modified objects used by all test methods.
+
+        This specific function name `setUpTestData` is required by Django.
         """
         author = CustomUser.objects.create(
             username=A_TEST_USERNAME,
