@@ -54,8 +54,7 @@ class QuestionCreateViewTest(TestCase):
 
     def test_view_url_redirects_to_login_if_not_logged_in(self):
         """
-        Test that the view redirects to the login page if the user is not
-        logged in.
+        View should redirect non-authenticated user to login view .
         """
         response = self.client.get(QUESTION_CREATE_URL)
         self.assertRedirects(
@@ -63,9 +62,10 @@ class QuestionCreateViewTest(TestCase):
             f'/accounts/login/?next={QUESTION_CREATE_URL}',
         )
 
-    def test_view_url_for_logged_in_user(self):
+    def test_view_url_for_logged_in_registration_accepted_true_user(self):
         """
-        Test that the view URL exists for a logged-in user.
+        View should return `status_code` of 200 for authenticated user
+        who has `registration_accepted=True`.
         """
         self.client.login(
             username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
@@ -76,7 +76,10 @@ class QuestionCreateViewTest(TestCase):
 
     def test_view_url_accessible_by_name(self):
         """
-        Test that the view URL is accessible by name.
+        View should be accessible through the `APP_NAME:VIEW_NAME`.
+
+        This tests functionality of `app_name` and `name` in `urlpatterns`
+        list of `urls.py`.
         """
         self.client.login(
             username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
@@ -87,7 +90,10 @@ class QuestionCreateViewTest(TestCase):
 
     def test_view_uses_correct_template(self):
         """
-        Test that the view uses the correct template.
+        View should use proper `QUESTION_CREATE_TEMPLATE`.
+
+        There is no need to test this case when `registration_accepted=False`,
+        I think. Will write the test and see what it looks like.
         """
         self.client.login(
             username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
@@ -97,10 +103,11 @@ class QuestionCreateViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, QUESTION_CREATE_TEMPLATE)
 
-    def test_view_has_extra_context_objects(self):
+    def test_view_has_additional_context_objects(self):
         """
-        Test that the view has the extra context objects `the_site_name`
-        and `page_title`.
+        View should have additional context objects:
+        - `the_site_name`
+        - `page_title`
         """
         self.client.login(
             username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
@@ -113,7 +120,7 @@ class QuestionCreateViewTest(TestCase):
 
     def test_view_has_form(self):
         """
-        Test that the view has a form.
+        View should have a `form` in the context.
         """
         self.client.login(
             username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
@@ -126,11 +133,9 @@ class QuestionCreateViewTest(TestCase):
     def test_view_form_has_correct_fields(self):
         """
         HTTP request to the view URL should have a form with the correct
-        fields:
+        fields and they should be in proper order:
         - `body`
         - `journal`
-
-        Test that the form has the correct fields and they are in proper order.
         """
         self.client.login(
             username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
@@ -154,7 +159,9 @@ class QuestionCreateViewTest(TestCase):
 
     def test_view_form_has_correct_labels(self):
         """
-        Test that the form has the correct labels.
+        Form inputs should have the correct labels:
+        - `body` -> 'Question Body Text'
+        - `journal` -> 'Journal'
         """
         self.client.login(
             username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
