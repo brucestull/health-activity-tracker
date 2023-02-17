@@ -144,6 +144,8 @@ class QuestionCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     def get_form_kwargs(self):
         """
         Pass the `user`, via kwarg `user`, to `QuestionForm`.
+
+        This is used to filter the `journal` field in the form to only show the journals of the current user.
         """
         kwargs = super().get_form_kwargs()
         kwargs['user'] = self.request.user
