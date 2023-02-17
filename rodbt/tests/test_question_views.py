@@ -9,6 +9,8 @@ USERNAME_REGISTRATION_ACCEPTED_TRUE = 'RegisteredUser'
 USERNAME_REGISTRATION_ACCEPTED_FALSE = 'UnregisteredUser'
 PASSWORD_FOR_TESTING = 'a_test_password'
 
+LOGIN_URL = '/accounts/login/'
+
 NUMBER_OF_QUESTIONS = 11
 
 QUESTION_CREATE_URL = '/rodbt/question/create/'
@@ -23,13 +25,15 @@ QUESTION_DETAIL_URL = '/rodbt/questions/1/'
 QUESTION_DETAIL_VIEW_NAME = 'rodbt:question-detail'
 QUESTION_DETAIL_TEMPLATE = 'rodbt/question_detail.html'
 
-QUESTION_BODY = (
+QUESTION_BODY_TOO_LONG = (
 """
 This is a Question Body, here. It's a long string of text, and it might
 not be tested for length, but it's here since we have to provide a 'body'
 when creating a `Question`.
 """
 )
+
+QUESTION_BODY = "This is a Question Body, here. It's short enough."
 
 JOURNAL_TITLE = 'A Journal Title'
 JOURNAL_BODY = (
@@ -72,15 +76,15 @@ class QuestionCreateViewTest(TestCase):
 
     def test_view_url_redirects_to_login_if_user_not_authenticated(self):
         """
-        View should redirect non-authenticated user to login view .
+        View should redirect non-authenticated user to login view.
         """
         response = self.client.get(QUESTION_CREATE_URL)
         self.assertRedirects(
             response,
-            f'/accounts/login/?next={QUESTION_CREATE_URL}',
+            f'{LOGIN_URL}?next={QUESTION_CREATE_URL}',
         )
 
-    def test_view_url_for_logged_in_registration_accepted_false_user(self):
+    def test_view_url_for_authenticated_registration_accepted_false_user(self):
         """
         View should return `status_code` of 403 for authenticated user
         who has `registration_accepted=False`.
@@ -92,7 +96,7 @@ class QuestionCreateViewTest(TestCase):
         response = self.client.get(QUESTION_CREATE_URL)
         self.assertEqual(response.status_code, 403)
 
-    def test_view_url_for_logged_in_registration_accepted_true_user(self):
+    def test_view_url_for_authenticated_registration_accepted_true_user(self):
         """
         View should return `status_code` of 200 for authenticated user
         who has `registration_accepted=True`.
@@ -110,7 +114,6 @@ class QuestionCreateViewTest(TestCase):
 
         This tests functionality of `app_name` and `name` in `urlpatterns`
         list of `urls.py`.
-
         """
         self.client.login(
             username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
@@ -131,7 +134,7 @@ class QuestionCreateViewTest(TestCase):
         View should use proper `QUESTION_CREATE_TEMPLATE`.
 
         There is no need to test this case when `registration_accepted=False`,
-        I think. That is tested in `test_view_url_for_logged_in_registration_accepted_false_user`.
+        I think. That is tested in `test_view_url_for_authenticated_registration_accepted_false_user`.
         """
         self.client.login(
             username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
@@ -152,6 +155,9 @@ class QuestionCreateViewTest(TestCase):
             password=PASSWORD_FOR_TESTING,
         )
         response = self.client.get(QUESTION_CREATE_URL)
+        # Probably not necessary to test `status_code` here since the
+        # context wouldn't exist if the view didn't return `status_code`
+        # of 200.
         self.assertEqual(response.status_code, 200)
         self.assertTrue('the_site_name' in response.context)
         self.assertTrue('page_title' in response.context)
@@ -227,7 +233,9 @@ class QuestionCreateViewTest(TestCase):
         test_journal = Journal.objects.create(
             title=JOURNAL_TITLE,
             body=JOURNAL_BODY,
-            author=CustomUser.objects.get(username=USERNAME_REGISTRATION_ACCEPTED_TRUE),
+            author=CustomUser.objects.get(
+                username=USERNAME_REGISTRATION_ACCEPTED_TRUE
+            ),
         )
         response = self.client.post(
             QUESTION_CREATE_URL,
@@ -236,10 +244,12 @@ class QuestionCreateViewTest(TestCase):
                 'journal': test_journal.id,
             },
         )
+        # Get the newly created `Question` object:
+        new_question = Question.objects.get(body=QUESTION_BODY)
         self.assertRedirects(
             response,
             reverse(
                 QUESTION_DETAIL_VIEW_NAME,
-                kwargs={'pk': 1},
+                kwargs={'pk': new_question.id},
             ),
         )
