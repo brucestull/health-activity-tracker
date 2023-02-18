@@ -261,6 +261,25 @@ class QuestionCreateViewTest(TestCase):
             ),
         )
 
+    # def test_view_url_redirects_to_login_if_user_not_authenticated(self):
+
+    # def test_view_url_for_authenticated_registration_accepted_false_user(self):
+
+    # def test_view_url_for_authenticated_registration_accepted_true_user(self):
+
+    # def test_view_url_accessible_by_name(self):
+
+    # def test_view_uses_correct_template(self):
+
+    # def test_view_has_additional_context_objects(self):
+
+    # def test_view_has_correct_page_title(self):
+
+    # def test_view_has_correct_question(self):
+
+    # def test_view_has_question_in_context(self):
+
+
 class QuestionListViewTest(TestCase):
     """
     Tests for `QuestionListView`.
