@@ -653,3 +653,4 @@ class QuestionUpdateViewTest(TestCase):
 #         )
 #         response = self.client.get(QUESTION_UPDATE_URL)
 #         self.assertEqual(response.status_code, 200)
+    pass

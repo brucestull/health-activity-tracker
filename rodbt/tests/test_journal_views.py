@@ -230,6 +230,7 @@ class JournalCreateViewTest(TestCase):
             )
         )
 
+
 class JournalDetailViewTest(TestCase):
     """
     Test the `JournalDetailView`.
@@ -260,6 +261,10 @@ class JournalDetailViewTest(TestCase):
         # Create a `Journal` for `user_registration_accepted_true`.
         Journal.objects.create(
             author=user_registration_accepted_true,
+            # Alternate `author` syntax:
+            # author=CustomUser.objects.get(
+            #     username=USERNAME_REGISTRATION_ACCEPTED_TRUE
+            # ),
             title=JOURNAL_TITLE,
             body=JOURNAL_BODY,
         )
@@ -364,8 +369,7 @@ class JournalDetailViewTest(TestCase):
             * `JOURNAL_TITLE`
             * `JOURNAL_BODY`
 
-        This test is probably not needed, `test_view_returns_a_journal`
-        is probably adequate.
+        This test may not be needed.
         """
         self.client.login(
             username=USERNAME_REGISTRATION_ACCEPTED_TRUE,

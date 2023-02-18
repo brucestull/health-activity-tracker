@@ -145,3 +145,6 @@
   * Expected templates:
     * `accounts/customuser_list.html` # Probably from view model `model = CustomUser`.
     * `registration/dashboard.html` # Probably from view `template_name = 'registration/dashboard.html'`.
+
+* `TypeError: Direct assignment to the forward side of a many-to-many set is prohibited. Use journal.set() instead.`:
+  * [Direct assignment to the forward side of a many-to-many set is prohibited. Use emails_for_help.set() instead](https://stackoverflow.com/a/50015229)
