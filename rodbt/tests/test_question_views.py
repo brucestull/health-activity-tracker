@@ -261,23 +261,172 @@ class QuestionCreateViewTest(TestCase):
             ),
         )
 
-    # def test_view_url_redirects_to_login_if_user_not_authenticated(self):
 
-    # def test_view_url_for_authenticated_registration_accepted_false_user(self):
+class QuestionDetailViewTest(TestCase):
+    """
+    Tests the `QuestionDetailView`.
+    """
+    @classmethod
+    def setUpTestData(cls):
+        """
+        Create two `CustomUser`s and a `Question` for testing.
 
-    # def test_view_url_for_authenticated_registration_accepted_true_user(self):
+        This specific function name `setUpTestData` is required by Django.
+        """
+        # Create users:
+        user_registration_accepted_true = CustomUser.objects.create(
+            username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
+        )
+        user_registration_accepted_true.set_password(PASSWORD_FOR_TESTING)
+        user_registration_accepted_true.registration_accepted = True
+        user_registration_accepted_true.save()
 
-    # def test_view_url_accessible_by_name(self):
+        user_registration_accepted_false = CustomUser.objects.create(
+            username=USERNAME_REGISTRATION_ACCEPTED_FALSE,
+        )
+        user_registration_accepted_false.set_password(PASSWORD_FOR_TESTING)
+        user_registration_accepted_false.registration_accepted = False
+        user_registration_accepted_false.save()
 
-    # def test_view_uses_correct_template(self):
+        # Create a `Journal` object in the database since we need it to
+        # create a `Question`:
+        test_journal = Journal.objects.create(
+            title=JOURNAL_TITLE,
+            body=JOURNAL_BODY,
+            author=CustomUser.objects.get(
+                username=USERNAME_REGISTRATION_ACCEPTED_TRUE
+            ),
+        )
 
-    # def test_view_has_additional_context_objects(self):
+        # Create a `Question` object in the database for
+        # `USERNAME_REGISTRATION_ACCEPTED_TRUE`:
+        test_question = Question.objects.create(
+            body=QUESTION_BODY,
+            author=CustomUser.objects.get(
+                username=USERNAME_REGISTRATION_ACCEPTED_TRUE
+            ),
+        )
+        test_journal.questions.add(test_question)
 
-    # def test_view_has_correct_page_title(self):
+    def test_view_url_redirects_to_login_if_user_not_authenticated(self):
+        """
+        View should redirect non-authenticated user to login view.
+        """
+        response = self.client.get(QUESTION_DETAIL_URL)
+        self.assertRedirects(
+            response,
+            f'{LOGIN_URL}?next={QUESTION_DETAIL_URL}'
+        )
 
-    # def test_view_has_correct_question(self):
+    def test_view_url_for_authenticated_registration_accepted_false_user(self):
+        """
+        View should return `status_code` of 403 for authenticated user
+        who has `registration_accepted=False`.
+        """
+        self.client.login(
+            username=USERNAME_REGISTRATION_ACCEPTED_FALSE,
+            password=PASSWORD_FOR_TESTING,
+        )
+        response = self.client.get(QUESTION_DETAIL_URL)
+        self.assertEqual(response.status_code, 403)
 
-    # def test_view_has_question_in_context(self):
+    def test_view_url_for_authenticated_registration_accepted_true_user(self):
+        """
+        View should return `status_code` of 200 for authenticated user
+        who has `registration_accepted=True`.
+        """
+        self.client.login(
+            username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
+            password=PASSWORD_FOR_TESTING,
+        )
+        response = self.client.get(QUESTION_DETAIL_URL)
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        """
+        View should be accessible by name.
+        """
+        self.client.login(
+            username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
+            password=PASSWORD_FOR_TESTING,
+        )
+        the_existing_question = Question.objects.get(body=QUESTION_BODY)
+        response = self.client.get(
+            reverse(
+                QUESTION_DETAIL_VIEW_NAME,
+                args=[the_existing_question.id],
+                # kwargs={'pk': the_existing_question.id},
+                # Alternatively, can use the following:
+            )
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        """
+        View should use proper `JOURNAL_DETAIL_TEMPLATE`.
+        """
+        self.client.login(
+            username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
+            password=PASSWORD_FOR_TESTING,
+        )
+        response = self.client.get(QUESTION_DETAIL_URL)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, QUESTION_DETAIL_TEMPLATE)
+
+    def test_view_has_additional_context_objects(self):
+        """
+        View should have additional context objects:
+            * `page_title`
+            * `question`
+        """
+        self.client.login(
+            username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
+            password=PASSWORD_FOR_TESTING,
+        )
+        response = self.client.get(QUESTION_DETAIL_URL)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('page_title', response.context)
+        self.assertIn('question', response.context)
+
+    def test_view_has_correct_page_title(self):
+        """
+        View should have the correct page title:
+            * `PAGE_TITLE_QUESTION_DETAIL`
+        """
+        self.client.login(
+            username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
+            password=PASSWORD_FOR_TESTING,
+        )
+        response = self.client.get(QUESTION_DETAIL_URL)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['page_title'], PAGE_TITLE_QUESTION_DETAIL)
+
+    def test_view_has_correct_question(self):
+        """
+        View should have the correct `Question` object:
+            * `QUESTION_BODY`
+        
+        This test may not be needed.
+        """
+        self.client.login(
+            username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
+            password=PASSWORD_FOR_TESTING,
+        )
+        response = self.client.get(QUESTION_DETAIL_URL)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['question'].body, QUESTION_BODY)
+
+    def test_view_has_question_in_context(self):
+        """
+        View should have an instance of a `Question` object in the context.
+        """
+        self.client.login(
+            username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
+            password=PASSWORD_FOR_TESTING,
+        )
+        response = self.client.get(QUESTION_DETAIL_URL)
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(response.context['question'], Question)
 
 
 class QuestionListViewTest(TestCase):
@@ -422,3 +571,85 @@ class QuestionListViewTest(TestCase):
     #         response.context['question_list'],
     #         reversed(Question.objects.all()),
     #     )
+
+
+class QuestionUpdateViewTest(TestCase):
+#     """
+#     Tests for `QuestionUpdateView`.
+#     """
+#     @classmethod
+#     def setUpTestData(cls):
+#         """
+#         Create two `CustomUser`s and a selection of 11 `Questions`s for testing.
+
+#         This specific function name `setUpTestData` is required by Django.
+#         """
+
+#         # Create users:
+#         user_registration_accepted_true = CustomUser.objects.create(
+#             username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
+#         )
+#         user_registration_accepted_true.set_password(PASSWORD_FOR_TESTING)
+#         user_registration_accepted_true.registration_accepted = True
+#         user_registration_accepted_true.save()
+
+#         user_registration_accepted_false = CustomUser.objects.create(
+#             username=USERNAME_REGISTRATION_ACCEPTED_FALSE,
+#         )
+#         user_registration_accepted_false.set_password(PASSWORD_FOR_TESTING)
+#         user_registration_accepted_false.registration_accepted = False
+#         user_registration_accepted_false.save()
+
+#         # Create some `Question`s for `user_registration_accepted_true`:
+#         number_of_questions = NUMBER_OF_QUESTIONS
+#         for question_id in range(number_of_questions):
+#             Question.objects.create(
+#                 body=QUESTION_BODY,
+#                 author=user_registration_accepted_true,
+#             )
+
+#     def test_view_url_redirects_to_login_if_user_not_authenticated(self):
+#         """
+#         View should redirect non-authenticated user to login view.
+#         """
+#         response = self.client.get(
+#             reverse(
+#                 QUESTION_UPDATE_VIEW_NAME,
+#                 kwargs={'pk': 1},
+#             ),
+#         )
+#         self.assertRedirects(
+#             response,
+#             f'{LOGIN_URL}?next={QUESTION_UPDATE_URL}',
+#         )
+
+#     def test_view_url_for_authenticated_registration_accepted_true_user(self):
+#         """
+#         View should return `status_code` of 200 for authenticated user
+#         who has `registration_accepted=True`.
+#         """
+#         self.client.login(
+#             username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
+#             password=PASSWORD_FOR_TESTING,
+#         )
+#         response = self.client.get(
+#             reverse(
+#                 QUESTION_UPDATE_VIEW_NAME,
+#                 kwargs={'pk': 1},
+#             ),
+#         )
+#         self.assertEqual(response.status_code, 200)
+
+#     def test_view_url_accessible_by_name(self):
+#         """
+#         View should be accessible through the `APP_NAME:VIEW_NAME`.
+
+#         This tests functionality of `app_name` and `name` in `urlpatterns`
+#         list of `urls.py`.
+#         """
+#         self.client.login(
+#             username=USERNAME_REGISTRATION_ACCEPTED_TRUE,
+#             password=PASSWORD_FOR_TESTING,
+#         )
+#         response = self.client.get(QUESTION_UPDATE_URL)
+#         self.assertEqual(response.status_code, 200)
