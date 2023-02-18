@@ -35,7 +35,6 @@ class Journal(models.Model):
         return reverse('rodbt:journal-detail', args=[str(self.id)])
 
 
-
 class Question(models.Model):
     author = models.ForeignKey(
         AUTH_USER_MODEL,
