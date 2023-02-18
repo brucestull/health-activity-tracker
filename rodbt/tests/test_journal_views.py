@@ -392,7 +392,7 @@ class JournalDetailViewTest(TestCase):
 
 class JournalListViewTest(TestCase):
     """
-    Test the `JournalListView`.
+    Tests the `JournalListView`.
     """
     @classmethod
     def setUpTestData(cls):
