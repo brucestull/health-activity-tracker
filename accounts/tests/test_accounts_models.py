@@ -3,6 +3,7 @@ from django.test import TestCase
 from accounts.models import CustomUser
 
 A_TEST_USERNAME = 'ACustomUserModelTestUsername'
+A_SECOND_TEST_USERNAME = 'ASecondCustomUserModelTestUsername'
 
 
 class CustomUserModelTest(TestCase):
@@ -44,12 +45,31 @@ class CustomUserModelTest(TestCase):
         field_label = custom_user._meta.get_field('is_moderator').verbose_name
         self.assertEqual(field_label, 'Is Moderator')
 
+########################################################################
+# Investigate which is the best way to test the default value of an attribute.
+    def test_is_moderator_default_attribute(self):
+        """
+        `is_moderator` default attribute should be `False`.
+        """
+        custom_user = CustomUser(A_SECOND_TEST_USERNAME)
+        default_attribute = custom_user._meta.get_field('is_moderator').default
+        self.assertEqual(default_attribute, False)
+
     def test_is_moderator_default_value(self):
         """
         `is_moderator` default value should be `False`.
         """
         custom_user = CustomUser.objects.get(id=1)
         self.assertEqual(custom_user.is_moderator, False)
+
+    def test_is_moderator_constructor_default_value(self):
+        """
+        `is_moderator` default value should be `False` when creating a new
+        CustomUser object.
+        """
+        custom_user = CustomUser(A_SECOND_TEST_USERNAME)
+        self.assertEqual(custom_user.is_moderator, False)
+########################################################################
 
     def test_dunder_str(self):
         """
