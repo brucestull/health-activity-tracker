@@ -49,7 +49,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     """
     model = CustomUser
     form_class = CustomUserChangeForm
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('home')
     template_name ='registration/update.html'
 
     def get_context_data(self, **kwargs):
