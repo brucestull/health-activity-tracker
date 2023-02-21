@@ -4,6 +4,8 @@
 
 * Warning:
 
+    ![image](https://user-images.githubusercontent.com/47562501/220292242-f2d326e3-23de-4a9d-86e7-d3b0f7afca22.png)
+
 * [`accounts/views.py`](../accounts/views.py)
 
     ```python
