@@ -16,6 +16,8 @@ class CustomLoginView(LoginView):
     Override the default login view. This will allow us to add the site
     name to the context and then display it on the page.
     """
+    # TODO: Is this functionality a security risk?
+    redirect_authenticated_user = True
 
     def get_context_data(self, **kwargs):
         """
