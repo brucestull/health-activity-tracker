@@ -141,6 +141,32 @@ class CustomLoginViewTest(TestCase):
         self.assertEqual(response.resolver_match.view_name, HOME_VIEW_NAME)
         self.assertEqual(response._request.path, HOME_URL)
 
+    def test_login_view_redirects_to_home_if_user_is_authenticated(self):
+        """
+        Test that the login view redirects to the home if the user is
+        authenticated.
+
+        `login()` is performed in this test and not in `setUpTestData()`
+        because we want to test the login view's redirect to home if the
+        user is authenticated, and other tests require the user to not be
+        authenticated.
+
+        TODO: Is this functionality in `accounts/views.py` a security risk?
+        """
+        # Create a user.
+        CustomUser.objects.create_user(
+            username=USERNAME_REGISTRATION_ACCEPTED_FALSE,
+            password=PASSWORD_FOR_TESTING,
+        )
+        # Log in the user.
+        self.client.login(
+            username=USERNAME_REGISTRATION_ACCEPTED_FALSE,
+            password=PASSWORD_FOR_TESTING,
+        )
+        # Test that the login view redirects to home if the user is
+        # authenticated.
+        response = self.client.get(LOGIN_URL)
+        self.assertRedirects(response, HOME_URL)
 
 class SignUpViewTest(TestCase):
     """
@@ -546,3 +572,4 @@ class UserDashboardViewTest(TestCase):
         response = self.client.get(USER_DASHBOARD_URL)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['customuser'], current_custom_user)
+
