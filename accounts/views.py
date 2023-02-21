@@ -17,6 +17,8 @@ class CustomLoginView(LoginView):
     name to the context and then display it on the page.
     """
     # TODO: Is this functionality a security risk?
+    # This is probably not neccessary because we can control whether or
+    # not a link is shown in the template for the login view.
     redirect_authenticated_user = True
 
     def get_context_data(self, **kwargs):
