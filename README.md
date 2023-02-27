@@ -5,6 +5,16 @@
 * Production Deployment:
   * <https://flynnt-knapp-health-tracker.herokuapp.com/>
 
+## Current Models
+
+* Idea for a utility application:
+  * Parse the 'models.py' file and create a 'models.md' file.
+    * This application would automatically document the current models of the application.
+
+* RO-DBT
+  * `Journal`
+  * `Question`
+
 ## Application Structure
 
 * RO-DBT:
