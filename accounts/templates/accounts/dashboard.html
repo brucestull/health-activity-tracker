@@ -16,7 +16,9 @@
     {{ object.username }}
     <br>
     <h2>Journals</h2>
-    {{ object.journals.all }}
+    {% comment %} {{ object.journals.all }} {% endcomment %}
+    {% comment %} Order the Journals by reverse order of "date" ('Created Date'). {% endcomment %}
+    {{ object.journals.all|dictsortreversed:"date" }}
     <br>
     <h2>Questions</h2>
     {{ object.questions.all }}
